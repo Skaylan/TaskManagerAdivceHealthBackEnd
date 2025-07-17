@@ -7,4 +7,5 @@ urlpatterns = [
     path('get_user_by_email', UserController.get_user_by_email, name='get_user_by_email'),
     path('create_user', UserController.create_user, name='create_user'),
     path('add_task', TaskController.add_task, name='add_task'),
+    path('delete_task', TaskController.delete_task, name='delete_task'),
 ]

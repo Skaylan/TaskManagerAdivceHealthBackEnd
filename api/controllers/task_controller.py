@@ -30,3 +30,45 @@ class TaskController:
         except Exception as e:
             print_error_details(e)
             return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @staticmethod
+    @api_view(['DELETE'])
+    def detele_task(request):
+        try:
+            data = request.data
+
+            if data.get('task_id') is None or data.get('task_id') == '':
+                return Response({'error': 'Task ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+            task = TaskService.delete_task(data.get('task_id'))
+            if not task:
+                return Response({'error': 'Task not deleted!'}, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response({'message': 'Task successfully deleted!'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print_error_details(e)
+            return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @staticmethod
+    @api_view(['GET'])
+    def get_all_tasks(request):
+        try:
+            tasks = TaskService.get_all_tasks()
+            serializer = TaskSerializer(tasks, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print_error_details(e)
+            return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @staticmethod
+    @api_view(['DELETE'])
+    def delete_task(request):
+        try:
+            data = request.data
+            if not TaskService.delete_task(data.get('task_id')):
+                return Response({'error': 'Task not deleted!'}, status=400)
+
+            return Response({'message': 'Task successfully deleted!'}, status=200)
+        except Exception as e:
+            print_error_details(e)
+            return Response({'error': 'Internal Server Error'}, status=500)

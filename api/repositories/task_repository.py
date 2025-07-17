@@ -10,3 +10,10 @@ class TaskRepository:
         )
         new_task.save()
         return new_task
+
+    @staticmethod
+    def delete_task(task_id: int) -> bool:
+        result = Task.objects.filter(id=task_id).delete()
+        if result[0] == 0:
+            return False
+        return True
