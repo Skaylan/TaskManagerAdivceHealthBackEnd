@@ -9,4 +9,5 @@ urlpatterns = [
     path('add_task', TaskController.add_task, name='add_task'),
     path('delete_task', TaskController.delete_task, name='delete_task'),
     path('update_task_status', TaskController.update_task_status, name='update_task_status'),
+    path('update_task_infos', TaskController.update_task_infos, name='update_task_infos'),
 ]

@@ -24,3 +24,11 @@ class TaskRepository:
         task.is_done = status
         task.save()
         return task
+
+    @staticmethod
+    def update_task_infos(task_id: int, title: str, description: str) -> Task:
+        task = Task.objects.get(id=task_id)
+        task.title = title
+        task.description = description
+        task.save()
+        return task

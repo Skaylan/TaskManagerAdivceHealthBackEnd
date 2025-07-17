@@ -12,3 +12,7 @@ class TaskService:
     @staticmethod
     def update_task_status(status: bool, task_id: int) -> Task:
         return TaskRepository.update_task_status(status, task_id)
+
+    @staticmethod
+    def update_task_infos(task_id: int, title: str, description: str) -> Task:
+        return TaskRepository.update_task_infos(task_id, title, description)
