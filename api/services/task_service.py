@@ -8,3 +8,7 @@ class TaskService:
     @staticmethod
     def delete_task(task_id: int):
         return TaskRepository.delete_task(task_id)
+
+    @staticmethod
+    def update_task_status(status: bool, task_id: int) -> Task:
+        return TaskRepository.update_task_status(status, task_id)

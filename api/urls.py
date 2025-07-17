@@ -8,4 +8,5 @@ urlpatterns = [
     path('create_user', UserController.create_user, name='create_user'),
     path('add_task', TaskController.add_task, name='add_task'),
     path('delete_task', TaskController.delete_task, name='delete_task'),
+    path('update_task_status', TaskController.update_task_status, name='update_task_status'),
 ]

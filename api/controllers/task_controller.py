@@ -72,3 +72,24 @@ class TaskController:
         except Exception as e:
             print_error_details(e)
             return Response({'error': 'Internal Server Error'}, status=500)
+
+    @staticmethod
+    @api_view(['PATCH'])
+    def update_task_status(request):
+        try:
+            data = request.data
+
+            if data.get('task_id') is None or data.get('task_id') == '':
+                return Response({'error': 'Task ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+            if data.get('status') is None or data.get('status') == '':
+                return Response({'error': 'Status is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+            task = TaskService.update_task_status(data.get('status'), data.get('task_id'))
+            if not task:
+                return Response({'error': 'Task not updated!'}, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response({'message': 'Task successfully updated!'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            print_error_details(e)
+            return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

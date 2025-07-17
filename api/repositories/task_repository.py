@@ -17,3 +17,10 @@ class TaskRepository:
         if result[0] == 0:
             return False
         return True
+
+    @staticmethod
+    def update_task_status(status: bool, task_id: int) -> Task:
+        task = Task.objects.get(id=task_id)
+        task.is_done = status
+        task.save()
+        return task
