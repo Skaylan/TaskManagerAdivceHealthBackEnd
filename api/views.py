@@ -36,3 +36,40 @@ def get_user_by_email(request):
     except Exception as e:
         print_error_details(e)
         return Response({'error': 'Internal Server Error'}, status=500)
+
+
+@api_view(['POST'])
+def create_user(request):
+    try:
+        data = request.data
+
+        if data.get('name') is None:
+            return Response({'error': 'Name is required'}, status=400)
+
+        if data.get('email') is None:
+            return Response({'error': 'Email is required'}, status=400)
+
+        if data.get('password') is None:
+            return Response({'error': 'Password is required'}, status=400)
+
+        if data.get('re_password') != data.get('password'):
+            return Response({'error': 'Passwords do not match'}, status=400)
+
+        if User.objects.filter(email=data.get('email')).exists():
+            return Response({'error': 'User already exists'}, status=400)
+
+
+        pasword_hash = make_password(data.get('password'))
+
+        new_user = User(
+            name=data.get('name'),
+            email=data.get('email'),
+            password_hash=pasword_hash
+        )
+
+        new_user.save()
+
+        return Response({'message': 'user successfully created!'}, status=200)
+    except Exception as e:
+        print_error_details(e)
+        return Response({'error': 'Internal Server Error'}, status=500)
