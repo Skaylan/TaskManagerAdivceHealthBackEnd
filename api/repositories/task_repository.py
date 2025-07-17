@@ -1,4 +1,4 @@
-from api.models import Task
+from api.models.task import Task
 class TaskRepository:
 
     @staticmethod

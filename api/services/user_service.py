@@ -1,4 +1,4 @@
-from api.models import User
+from api.models.user import User
 from api.repositories.user_repository import UserRepository
 
 class UserService:

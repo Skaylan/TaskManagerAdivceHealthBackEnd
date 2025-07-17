@@ -1,8 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from api.serializers import UserSerializer, TaskSerializer
-from api.models import User, Task
+from api.serializers import UserSerializer
 from django.contrib.auth.hashers import make_password, check_password
 from core.utils import print_error_details
 from api.services.user_service import UserService
