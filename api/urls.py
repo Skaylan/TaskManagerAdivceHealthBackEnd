@@ -1,9 +1,10 @@
 from django.urls import path
-from . import views
-
+# from . import views
+from api.controllers.user_controller import UserController
+from api.controllers.task_controller import TaskController
 urlpatterns = [
-    path('get_all_users', views.get_all_users, name='get_all_users'),
-    path('get_user_by_email', views.get_user_by_email, name='get_user_by_email'),
-    path('create_user', views.create_user, name='create_user'),
-    path('add_task', views.add_task, name='add_task'),
+    path('get_all_users', UserController.get_all_users, name='get_all_users'),
+    path('get_user_by_email', UserController.get_user_by_email, name='get_user_by_email'),
+    path('create_user', UserController.create_user, name='create_user'),
+    path('add_task', TaskController.add_task, name='add_task'),
 ]
