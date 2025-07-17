@@ -73,3 +73,31 @@ def create_user(request):
     except Exception as e:
         print_error_details(e)
         return Response({'error': 'Internal Server Error'}, status=500)
+
+
+@api_view(['POST'])
+def add_task(request):
+    try:
+        data = request.data
+
+        if data.get('user_id') is None or data.get('user_id') == '':
+            return Response({'error': 'User ID is required'}, status=400)
+
+        if data.get('title') is None or data.get('title') == '':
+            return Response({'error': 'Title is required'}, status=400)
+
+        if data.get('description') is None or data.get('description') == '':
+            return Response({'error': 'Description is required'}, status=400)
+
+        new_task = Task(
+            user_id=data.get('user_id'),
+            title=data.get('title'),
+            description=data.get('description')
+        )
+
+        new_task.save()
+
+        return Response({'message': 'Task successfully created!'}, status=200)
+    except Exception as e:
+        print_error_details(e)
+        return Response({'error': 'Internal Server Error'}, status=500)
