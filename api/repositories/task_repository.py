@@ -1,4 +1,5 @@
 from api.models.task import Task
+from api.services.user_service import UserService
 class TaskRepository:
 
     @staticmethod
@@ -32,3 +33,8 @@ class TaskRepository:
         task.description = description
         task.save()
         return task
+
+    @staticmethod
+    def get_tasks_by_user_email(email: str) -> list[Task]:
+        user = UserService.get_user_by_email(email)
+        return Task.objects.filter(user_id=user.id)
