@@ -40,53 +40,31 @@ class TaskRepository:
         return task
 
     @staticmethod
-    def get_tasks_by_user_email(email: str, page_number: int, filter: str, search_term) -> list[list[Task], int]:
+    def get_tasks_by_user_email(email: str, page_number: int, filter: str, search_term: str) -> tuple[list[Task], int]:
         user = UserService.get_user_by_email(email)
-        if filter == 'done':
-            task_list = Task.objects.filter(user_id=user.id, is_done=True).order_by('-created_at')
-            paginator = Paginator(task_list, 6)
-            amount_of_tasks = paginator.count
-            try:
-                tasks = paginator.page(page_number)
-            except PageNotAnInteger:
-                tasks = paginator.page(1)
-            except EmptyPage:
-                tasks = paginator.page(paginator.num_pages)
-            return tasks, amount_of_tasks
 
-        if filter == 'not-done':
-            task_list = Task.objects.filter(user_id=user.id, is_done=False).order_by('-created_at')
-            paginator = Paginator(task_list, 6)
-            amount_of_tasks = paginator.count
-            try:
-                tasks = paginator.page(page_number)
-            except PageNotAnInteger:
-                tasks = paginator.page(1)
-            except EmptyPage:
-                tasks = paginator.page(paginator.num_pages)
-            return tasks, amount_of_tasks
+
+        queryset = Task.objects.filter(user_id=user.id)
+
+
+        if filter == 'done':
+            queryset = queryset.filter(is_done=True)
+        elif filter == 'not-done':
+            queryset = queryset.filter(is_done=False)
+
 
         if search_term:
-            task_list = Task.objects.filter(
-                Q(user_id=user.id),
+            queryset = queryset.filter(
                 Q(title__icontains=search_term) | Q(description__icontains=search_term)
-            ).order_by('-created_at')
+            )
 
-            paginator = Paginator(task_list, 6)
-            amount_of_tasks = paginator.count
 
-            try:
-                tasks = paginator.page(page_number)
-            except PageNotAnInteger:
-                tasks = paginator.page(1)
-            except EmptyPage:
-                tasks = paginator.page(paginator.num_pages)
+        queryset = queryset.order_by('-created_at')
 
-            return tasks, amount_of_tasks
 
-        task_list = Task.objects.filter(user_id=user.id).order_by('-created_at')
-        paginator = Paginator(task_list, 6)
+        paginator = Paginator(queryset, 6)
         amount_of_tasks = paginator.count
+
         try:
             tasks = paginator.page(page_number)
         except PageNotAnInteger:
