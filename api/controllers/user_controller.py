@@ -5,7 +5,8 @@ from api.serializers import UserSerializer
 from django.contrib.auth.hashers import make_password, check_password
 from core.utils import print_error_details
 from api.services.user_service import UserService
-
+import jwt
+import os
 
 class UserController:
     @staticmethod
@@ -33,10 +34,10 @@ class UserController:
                 return Response({'error': 'User not found'}, status=404)
 
             serializer = UserSerializer(user)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             print_error_details(e)
-            return Response({'error': 'Internal Server Error'}, status=500)
+            return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @staticmethod
     @api_view(['POST'])
@@ -61,10 +62,20 @@ class UserController:
 
             new_user = UserService.create_user(data.get('name'), data.get('email'), pasword_hash)
 
+
+
             if not new_user:
                 return Response({'error': 'User not created!'}, status=400)
+            serializer = UserSerializer(new_user)
 
-            return Response({'message': 'user successfully created!'}, status=201)
+            token = jwt.encode({'email': new_user.email}, os.getenv('SECRET_KEY'), algorithm='HS256')
+
+            return Response({
+                'message': 'user successfully created!',
+                'user': serializer.data,
+                'token': token
+                }, status=201
+            )
         except Exception as e:
             print_error_details(e)
             return Response({'error': 'Internal Server Error'}, status=500)
