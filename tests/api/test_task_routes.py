@@ -64,3 +64,25 @@ def test_update_task_status():
     update_task_response = update_task_status(client, task_response.data['task']['id'], True)
     assert update_task_response.status_code == 200
     assert task_response.data['task']['is_done'] == False
+
+
+@pytest.mark.django_db
+def test_update_task_infos():
+    user_response = create_user(client, CREATE_USER_PAYLOAD)
+    assert user_response.status_code == 201
+
+    task_response = add_task(client, ADD_TASK_PAYLOAD)
+    assert task_response.status_code == 201
+    assert task_response.data['task']['title'] == ADD_TASK_PAYLOAD['title']
+
+    payload = {
+        "title": "Tarefa atualizada",
+        "description": "Descrição da tarefa atualizada",
+        'task_id': task_response.data['task']['id']
+    }
+
+    update_task_response = update_task_infos(client, payload)
+    assert update_task_response.status_code == 200
+    assert update_task_response.data['message'] == 'Task successfully updated!'
+    assert update_task_response.data['task']['title'] == "Tarefa atualizada"
+    assert update_task_response.data['task']['description'] == "Descrição da tarefa atualizada"

@@ -14,6 +14,7 @@ ADD_TASK_PAYLOAD = {
     'user_id': 1
 }
 
+
 def create_user(client, payload: dict):
     return client.post(f'{ENDPOINT}/create_user', payload, format='json')
 
@@ -37,3 +38,6 @@ def delete_task(client, task_id: int):
 
 def update_task_status(client, task_id: int, status: bool):
     return client.put(f'{ENDPOINT}/update_task_status', {'task_id': task_id, 'status': status})
+
+def update_task_infos(client, payload):
+    return client.put(f'{ENDPOINT}/update_task_infos', payload, format='json')

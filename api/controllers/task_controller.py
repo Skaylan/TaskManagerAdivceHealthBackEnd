@@ -134,10 +134,17 @@ class TaskController:
 
             task = TaskService.update_task_infos(data.get('task_id'), data.get('title'), data.get('description'))
 
+            serializer = TaskSerializer(task)
+
             if not task:
                 return Response({'error': 'Task not updated!'}, status=status.HTTP_400_BAD_REQUEST)
 
-            return Response({'message': 'Task successfully updated!'}, status=status.HTTP_200_OK)
+            return Response(
+                {
+                    'message': 'Task successfully updated!',
+                    'task': serializer.data
+                }, status=status.HTTP_200_OK
+            )
         except Exception as e:
             print_error_details(e)
             return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
