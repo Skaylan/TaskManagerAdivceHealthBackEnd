@@ -4,7 +4,7 @@ from rest_framework import status
 from api.serializers import TaskSerializer
 from core.utils import print_error_details
 from api.services.task_service import TaskService
-
+from api.services.category_service import CategoryService
 
 class TaskController:
     @staticmethod
@@ -22,7 +22,8 @@ class TaskController:
             if data.get('description') is None or data.get('description') == '':
                 return Response({'error': 'Description is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-            task = TaskService.add_task(data.get('user_id'), data.get('title'), data.get('description'))
+
+            task = TaskService.add_task(data.get('user_id'), data.get('title'), data.get('description'), data.get('category_id'))
             if not task:
                 return Response({'error': 'Task not created!'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -75,11 +76,12 @@ class TaskController:
             page_number = request.GET.get('page_number')
             filter = request.GET.get('filter')
             search_term = request.GET.get('search_term')
+            category_id = request.GET.get('category_id')
 
             if email is None or email == '':
                 return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-            tasks, amount_of_tasks = TaskService.get_tasks_by_user_email(email, page_number, filter, search_term)
+            tasks, amount_of_tasks = TaskService.get_tasks_by_user_email(email, page_number, filter, search_term, category_id)
             serializer = TaskSerializer(tasks, many=True)
             return Response({'tasks': serializer.data, 'amount_of_tasks': amount_of_tasks}, status=status.HTTP_200_OK)
         except Exception as e:
