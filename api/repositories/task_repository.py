@@ -1,6 +1,7 @@
 from api.models.task import Task
 from api.services.user_service import UserService
 from django.utils import timezone
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 class TaskRepository:
 
     @staticmethod
@@ -38,6 +39,16 @@ class TaskRepository:
         return task
 
     @staticmethod
-    def get_tasks_by_user_email(email: str) -> list[Task]:
+    def get_tasks_by_user_email(email: str, page_number: int) -> list[list[Task], int]:
         user = UserService.get_user_by_email(email)
-        return Task.objects.filter(user_id=user.id).order_by('-created_at')
+        task_list = Task.objects.filter(user_id=user.id).order_by('-created_at')
+        paginator = Paginator(task_list, 6)
+        amount_of_tasks = paginator.count
+        try:
+            tasks = paginator.page(page_number)
+        except PageNotAnInteger:
+            tasks = paginator.page(1)
+        except EmptyPage:
+            tasks = paginator.page(paginator.num_pages)
+
+        return tasks, amount_of_tasks

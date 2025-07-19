@@ -65,13 +65,13 @@ class TaskController:
     def get_tasks_by_user_email(request):
         try:
             email = request.GET.get('email')
-
+            page_number = request.GET.get('page_number')
             if email is None or email == '':
                 return Response({'error': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
 
-            tasks = TaskService.get_tasks_by_user_email(email)
+            tasks, amount_of_tasks = TaskService.get_tasks_by_user_email(email, page_number)
             serializer = TaskSerializer(tasks, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response({'tasks': serializer.data, 'amount_of_tasks': amount_of_tasks}, status=status.HTTP_200_OK)
         except Exception as e:
             print_error_details(e)
             return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
