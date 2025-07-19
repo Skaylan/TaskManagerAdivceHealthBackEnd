@@ -31,3 +31,6 @@ def get_tasks_by_user_email(client, email: int):
 
 def get_all_tasks(client):
     return client.get(f'{ENDPOINT}/get_all_tasks')
+
+def delete_task(client, task_id: int):
+    return client.delete(f'{ENDPOINT}/delete_task', {'task_id': task_id})

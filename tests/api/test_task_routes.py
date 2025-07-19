@@ -39,3 +39,15 @@ def test_get_all_tasks():
 
     get_task_response = get_all_tasks(client)
     assert get_task_response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_delete_task():
+    user_response = create_user(client, CREATE_USER_PAYLOAD)
+    assert user_response.status_code == 201
+
+    task_response = add_task(client, ADD_TASK_PAYLOAD)
+    assert task_response.status_code == 201
+
+    delete_task_response = delete_task(client, task_response.data['task']['id'])
+    assert delete_task_response.status_code == 200
