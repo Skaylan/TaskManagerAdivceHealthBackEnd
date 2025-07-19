@@ -3,6 +3,7 @@ from django.urls import path
 from api.controllers.user_controller import UserController
 from api.controllers.task_controller import TaskController
 from api.controllers.auth_controller import AuthController
+from api.controllers.category_controller import CategoryController
 
 urlpatterns = [
     path('get_all_users', UserController.get_all_users, name='get_all_users'),
@@ -15,4 +16,6 @@ urlpatterns = [
     path('authenticate', AuthController.authenticate, name='authenticate'),
     path('get_tasks_by_user_email', TaskController.get_tasks_by_user_email, name='get_tasks_by_user_email'),
     path('get_all_tasks', TaskController.get_all_tasks, name='get_all_tasks'),
+    path('create_category', CategoryController.create_category, name='create_category'),
+    path('get_user_categories_by_email', CategoryController.get_user_categories_by_email, name='get_user_categories_by_email'),
 ]
