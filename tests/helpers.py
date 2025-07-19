@@ -28,3 +28,6 @@ def add_task(client, payload: dict):
 
 def get_tasks_by_user_email(client, email: int):
     return client.get(f'{ENDPOINT}/get_tasks_by_user_email?email={email}')
+
+def get_all_tasks(client):
+    return client.get(f'{ENDPOINT}/get_all_tasks')
