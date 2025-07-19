@@ -51,3 +51,16 @@ def test_delete_task():
 
     delete_task_response = delete_task(client, task_response.data['task']['id'])
     assert delete_task_response.status_code == 200
+
+@pytest.mark.django_db
+def test_update_task_status():
+    user_response = create_user(client, CREATE_USER_PAYLOAD)
+    assert user_response.status_code == 201
+
+    task_response = add_task(client, ADD_TASK_PAYLOAD)
+    assert task_response.data['task']['is_done'] == False
+    assert task_response.status_code == 201
+
+    update_task_response = update_task_status(client, task_response.data['task']['id'], True)
+    assert update_task_response.status_code == 200
+    assert task_response.data['task']['is_done'] == False

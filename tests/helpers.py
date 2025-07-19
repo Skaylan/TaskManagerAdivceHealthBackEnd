@@ -34,3 +34,6 @@ def get_all_tasks(client):
 
 def delete_task(client, task_id: int):
     return client.delete(f'{ENDPOINT}/delete_task', {'task_id': task_id})
+
+def update_task_status(client, task_id: int, status: bool):
+    return client.put(f'{ENDPOINT}/update_task_status', {'task_id': task_id, 'status': status})
