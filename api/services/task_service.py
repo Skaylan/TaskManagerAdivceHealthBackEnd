@@ -20,3 +20,7 @@ class TaskService:
     @staticmethod
     def get_tasks_by_user_email(email: str, page_number: int) -> list[Task]:
         return TaskRepository.get_tasks_by_user_email(email, page_number)
+
+    @staticmethod
+    def get_all_tasks() -> list[Task]:
+        return TaskRepository.get_all_tasks()

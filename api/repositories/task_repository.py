@@ -52,3 +52,7 @@ class TaskRepository:
             tasks = paginator.page(paginator.num_pages)
 
         return tasks, amount_of_tasks
+
+    @staticmethod
+    def get_all_tasks() -> list[Task]:
+        return Task.objects.all()

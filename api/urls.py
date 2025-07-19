@@ -14,4 +14,5 @@ urlpatterns = [
     path('update_task_infos', TaskController.update_task_infos, name='update_task_infos'),
     path('authenticate', AuthController.authenticate, name='authenticate'),
     path('get_tasks_by_user_email', TaskController.get_tasks_by_user_email, name='get_tasks_by_user_email'),
+    path('get_all_tasks', TaskController.get_all_tasks, name='get_all_tasks'),
 ]
