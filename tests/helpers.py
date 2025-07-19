@@ -41,3 +41,7 @@ def update_task_status(client, task_id: int, status: bool):
 
 def update_task_infos(client, payload):
     return client.put(f'{ENDPOINT}/update_task_infos', payload, format='json')
+
+
+def authenticate(client, email: str, password: str):
+    return client.post(f'{ENDPOINT}/authenticate', {'email': email, 'password': password}, format='json')

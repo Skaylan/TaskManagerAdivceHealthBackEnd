@@ -62,8 +62,6 @@ class UserController:
 
             new_user = UserService.create_user(data.get('name'), data.get('email'), pasword_hash)
 
-
-
             if not new_user:
                 return Response({'error': 'User not created!'}, status=400)
             serializer = UserSerializer(new_user)
