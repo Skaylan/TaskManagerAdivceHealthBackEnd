@@ -23,3 +23,8 @@ def get_all_users(client):
 def get_user_by_email(client, email: str):
     return client.get(f'{ENDPOINT}/get_user_by_email?email={email}')
 
+def add_task(client, payload: dict):
+    return client.post(f'{ENDPOINT}/add_task', payload, format='json')
+
+def get_tasks_by_user_email(client, email: int):
+    return client.get(f'{ENDPOINT}/get_tasks_by_user_email?email={email}')
