@@ -78,7 +78,8 @@ def test_update_task_infos():
     payload = {
         "title": "Tarefa atualizada",
         "description": "Descrição da tarefa atualizada",
-        'task_id': task_response.data['task']['id']
+        'task_id': task_response.data['task']['id'],
+        'category_id': ''
     }
 
     update_task_response = update_task_infos(client, payload)
