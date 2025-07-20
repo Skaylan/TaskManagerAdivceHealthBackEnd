@@ -15,3 +15,11 @@ class CategoryService:
     @staticmethod
     def get_user_categories(user: User):
         return CategoryRepository.get_user_categories(user=user)
+
+    @staticmethod
+    def delete_category(category_id: int) -> bool:
+        result = CategoryRepository.delete_category(category_id=category_id)
+        if result[0] > 0:
+            return True
+        return False
+
