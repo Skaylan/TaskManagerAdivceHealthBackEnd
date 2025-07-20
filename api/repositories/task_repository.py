@@ -41,10 +41,15 @@ class TaskRepository:
         return task
 
     @staticmethod
-    def update_task_infos(task_id: int, title: str, description: str) -> Task:
+    def update_task_infos(task_id: int, title: str, description: str, category_id: int) -> Task:
         task = Task.objects.get(id=task_id)
         task.title = title
         task.description = description
+        if category_id == '':
+            task.category = None
+        else:
+            task.category = Category.objects.get(id=category_id)
+
         task.updated_at = timezone.now()
         task.save()
         return task

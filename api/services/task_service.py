@@ -16,8 +16,13 @@ class TaskService:
         return TaskRepository.update_task_status(status, task_id)
 
     @staticmethod
-    def update_task_infos(task_id: int, title: str, description: str) -> Task:
-        return TaskRepository.update_task_infos(task_id, title, description)
+    def update_task_infos(task_id: int, title: str, description: str, category_id: int) -> Task:
+        return TaskRepository.update_task_infos(
+            task_id,
+            title,
+            description,
+            category_id
+        )
 
     @staticmethod
     def get_tasks_by_user_email(email: str, page_number: int, filter: str, search_term: str, category_id: int) -> list[Task]:
