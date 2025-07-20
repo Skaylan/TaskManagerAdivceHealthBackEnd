@@ -7,6 +7,14 @@ client = APIClient()
 
 @pytest.mark.django_db
 def test_create_task():
+    """
+    Test that a task can be created correctly.
+
+    This test creates a user and then a task, and verifies that the task
+    is created successfully with the correct title and that the appropriate
+    success message is returned.
+    """
+
     user_response = create_user(client, CREATE_USER_PAYLOAD)
     assert user_response.status_code == 201
 
@@ -17,6 +25,13 @@ def test_create_task():
 
 @pytest.mark.django_db
 def test_get_tasks_by_user_email():
+    """
+    Test that tasks can be retrieved by user email correctly.
+
+    This test creates a user and a task, and then retrieves the task by
+    email. It verifies that the task is retrieved successfully and has the
+    correct title and amount of tasks.
+    """
     user_response = create_user(client, CREATE_USER_PAYLOAD)
     assert user_response.status_code == 201
 
@@ -31,6 +46,13 @@ def test_get_tasks_by_user_email():
 
 @pytest.mark.django_db
 def test_get_all_tasks():
+    """
+    Test that all tasks can be retrieved correctly.
+
+    This test creates a user and a task, and then retrieves all tasks. It verifies
+    that the task is retrieved successfully and has the correct title.
+    """
+
     user_response = create_user(client, CREATE_USER_PAYLOAD)
     assert user_response.status_code == 201
 
@@ -43,6 +65,13 @@ def test_get_all_tasks():
 
 @pytest.mark.django_db
 def test_delete_task():
+    """
+    Test that a task can be deleted correctly.
+
+    This test creates a user and a task, and then deletes the task. It verifies
+    that the task is deleted successfully and that the appropriate success
+    message is returned.
+    """
     user_response = create_user(client, CREATE_USER_PAYLOAD)
     assert user_response.status_code == 201
 
@@ -54,6 +83,13 @@ def test_delete_task():
 
 @pytest.mark.django_db
 def test_update_task_status():
+    """
+    Test that a task status can be updated correctly.
+
+    This test creates a user and a task, and then updates the task status. It verifies
+    that the task status is updated successfully and that the appropriate success
+    message is returned.
+    """
     user_response = create_user(client, CREATE_USER_PAYLOAD)
     assert user_response.status_code == 201
 
@@ -68,6 +104,14 @@ def test_update_task_status():
 
 @pytest.mark.django_db
 def test_update_task_infos():
+    """
+    Test that a task's information can be updated correctly.
+
+    This test creates a user and a task, then updates the task's title and
+    description. It verifies that the task information is updated successfully
+    and that the appropriate success message is returned.
+    """
+
     user_response = create_user(client, CREATE_USER_PAYLOAD)
     assert user_response.status_code == 201
 
