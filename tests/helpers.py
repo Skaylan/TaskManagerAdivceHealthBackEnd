@@ -14,6 +14,12 @@ ADD_TASK_PAYLOAD = {
     'user_id': 1
 }
 
+CREATE_CATEGORY_PAYLOAD = {
+    'email': 'test@example.com',
+    'name': 'categoria teste',
+    'color': '#FFFFFF'
+}
+
 
 def create_user(client, payload: dict):
     return client.post(f'{ENDPOINT}/create_user', payload, format='json')
@@ -45,3 +51,15 @@ def update_task_infos(client, payload):
 
 def authenticate(client, email: str, password: str):
     return client.post(f'{ENDPOINT}/authenticate', {'email': email, 'password': password}, format='json')
+
+def create_category(client, payload: dict):
+    return client.post(f'{ENDPOINT}/create_category', payload, format='json')
+
+def get_user_categories_by_email(client, email: str):
+    return client.get(f'{ENDPOINT}/get_user_categories_by_email?email={email}')
+
+def delete_category(client, category_id: int):
+    return client.delete(f'{ENDPOINT}/delete_category', {'category_id': category_id})
+
+def update_category(client, payload: dict):
+    return client.put(f'{ENDPOINT}/update_category', payload, format='json')
