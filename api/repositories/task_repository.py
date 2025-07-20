@@ -11,17 +11,16 @@ class TaskRepository:
 
     @staticmethod
     def add_task(user_id: int, title: str, description: str, category_id: int):
+        if category_id == '':
+            category_id = None
         try:
             new_task = Task(
                 user_id=user_id,
                 title=title,
-                description=description
+                description=description,
+                category_id=category_id
             )
             new_task.save()
-            if not category_id:
-                return new_task
-
-            new_task.category.add(category_id)
 
             return new_task
         except Exception as e:
