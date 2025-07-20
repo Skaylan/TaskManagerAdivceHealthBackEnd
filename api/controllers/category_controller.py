@@ -17,7 +17,7 @@ class CategoryController:
                 return Response({'error': 'Category name is required'}, status=status.HTTP_400_BAD_REQUEST)
 
             user = UserService.get_user_by_email(data.get('email'))
-            category = CategoryService.create_category(data.get('name'), user)
+            category = CategoryService.create_category(data.get('name'), user, data.get('color'))
             if not category:
                 return Response({'error': 'Category not created!'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -75,3 +75,33 @@ class CategoryController:
             print_error_details(e)
             return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    @staticmethod
+    @api_view(['PUT'])
+    def update_category(request):
+        try:
+            data = request.data
+
+            if not data.get('category_id') or data.get('category_id') == '':
+                return Response({'error': 'Category ID is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+            if not data.get('name') or data.get('name') == '':
+                return Response({'error': 'Category name is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+            if not data.get('color') or data.get('color') == '':
+                return Response({'error': 'Category color is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+            category = CategoryService.update_category(data.get('category_id'), data.get('name'), data.get('color'))
+            if not category:
+                return Response({'error': 'Category not updated!'}, status=status.HTTP_400_BAD_REQUEST)
+
+            serializer = CategorySerializer(category)
+
+            return Response(
+                {
+                    'message': 'Category successfully updated!',
+                    'category': serializer.data
+                },
+                status=status.HTTP_200_OK)
+        except Exception as e:
+            print_error_details(e)
+            return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

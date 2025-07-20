@@ -19,4 +19,5 @@ urlpatterns = [
     path('create_category', CategoryController.create_category, name='create_category'),
     path('get_user_categories_by_email', CategoryController.get_user_categories_by_email, name='get_user_categories_by_email'),
     path('delete_category', CategoryController.delete_category, name='delete_category'),
+    path('update_category', CategoryController.update_category, name='update_category'),
 ]
