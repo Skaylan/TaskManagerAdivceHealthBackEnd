@@ -18,7 +18,14 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(many=True, read_only=True)
+    category = CategorySerializer(read_only=True)
+    category_id = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(),
+        write_only=True,
+        source='category',
+        required=False,
+        allow_null=True
+    )
     class Meta:
         model = Task
         fields = '__all__'
