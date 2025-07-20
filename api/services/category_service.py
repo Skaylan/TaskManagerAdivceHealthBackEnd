@@ -3,8 +3,8 @@ from api.repositories.category_repository import CategoryRepository
 from api.models.user import User
 class CategoryService:
     @staticmethod
-    def create_category(name: str, user: User) -> Category:
-        return CategoryRepository.create_category(name=name, user=user)
+    def create_category(name: str, user: User, color: str) -> Category:
+        return CategoryRepository.create_category(name=name, user=user, color=color)
 
 
     @staticmethod
@@ -23,3 +23,6 @@ class CategoryService:
             return True
         return False
 
+    @staticmethod
+    def update_category(category_id: int, name: str, color: str) -> Category:
+        return CategoryRepository.update_category(category_id=category_id, name=name, color=color)
