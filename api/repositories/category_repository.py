@@ -25,3 +25,18 @@ class CategoryRepository:
             return Category.objects.filter(user=user)
         except Exception as e:
             print_error_details(e)
+
+    @staticmethod
+    def delete_category(category_id: int) -> Category:
+        try:
+            category = Category.objects.get(id=category_id)
+            tasks = Task.objects.filter(category_id=category)
+
+            for task in tasks:
+                task.category = None
+                task.save()
+
+            return Category.objects.filter(id=category_id).delete()
+        except Exception as e:
+            print_error_details(e)
+
